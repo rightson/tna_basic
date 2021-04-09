@@ -1,0 +1,8 @@
+*.swp
+*.log*
+cscope.*
+*.pcap
+tags
+*.pyc
+tmp
+zlog-cfg-cur

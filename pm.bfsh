@@ -1,0 +1,13 @@
+ucli
+pm
+port-add 20/0 10G NONE
+port-add 20/1 10G NONE
+port-add 20/2 10G NONE
+port-add 20/3 10G NONE
+port-enb 20/0
+port-enb 20/1
+port-enb 20/2
+port-enb 20/3
+show
+exit
+exit
