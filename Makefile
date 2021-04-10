@@ -1,7 +1,3 @@
-M3_IP = 192.168.132.83
-M3_IF = eno3
-M4_VIP = 10.0.10.43
-
 usage:
 	@echo targets: build run.switchd port.conf port.show port.watch test
 
@@ -12,16 +8,16 @@ run.switchd:
 	rt switchd tna_basic
 
 port.conf:
-	rt bfshell pm.bfsh
+	rt bfshell conf/pm.bfsh
 
 port.show:
-	rt bfshell show.bfsh
+	rt bfshell conf/show.bfsh
 
 port.watch:
-	watch -n 1 "rt bfshell show.bfsh"
+	watch -n 1 "rt bfshell conf/show.bfsh"
 
 test:
-	rt test $(PWD)
+	rt test conf
 
 ping.m3:
-	ssh p4user@$(M3_IP) ping -I $(M3_IF) $(M4_VIP) -c 5
+	ssh p4user@192.168.132.83 ping -I eno3 10.0.10.43 -c 5

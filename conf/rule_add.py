@@ -16,7 +16,7 @@ class ConfigTest(BfRuntimeTest):
         BfRuntimeTest.tearDown(self)
 
     def runTest(self):
-        logger.info('runTest')
+        logger.info('Adding rule')
 
         bfrt_info = self.interface.bfrt_info_get(self.p4_name)
 
