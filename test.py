@@ -23,15 +23,6 @@ class ConfigTest(BfRuntimeTest):
         table = bfrt_info.table_get('IngressPipeline.forward')
         table.info.key_field_annotation_add("hdr.ipv4.dst_addr", "ipv4")
 
-
-        def get_key_data(table, dst_addr, dst_port):
-            key = table.make_key([
-                gc.KeyTuple('hdr.ipv4.dst_addr', dst_addr)])
-            data = table.make_data([
-                gc.DataTuple('dst_port', dst_port)],
-                'IngressPipeline.ipv4_forward')
-            return [key], [data]
-
         # eno3: 28, eno4: 29
         # eno3: 30, eno4: 31
 
