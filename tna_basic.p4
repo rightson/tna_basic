@@ -1,7 +1,7 @@
 #include <core.p4>
 #include <tna.p4>
-#include "../common/headers.p4"
-#include "../common/util.p4"
+#include "./common/headers.p4"
+#include "./common/util.p4"
 
 struct metadata_t {
     bit<16> port1;
@@ -79,8 +79,8 @@ control IngressDeparser(
         in metadata_t ig_md,
         in ingress_intrinsic_metadata_for_deparser_t ig_dprsr_md) {
     apply {
-        pkt.emit(hdr.ethernet);
-        pkt.emit(hdr.ipv4);
+        //pkt.emit(hdr.ethernet);
+        //pkt.emit(hdr.ipv4);
     }
 }
 
@@ -111,8 +111,8 @@ control EgressDeparser(
         in metadata_t md,
         in egress_intrinsic_metadata_for_deparser_t intr_dprs_md) {
     apply {
-        pkt.emit(hdr.ethernet);
-        pkt.emit(hdr.ipv4);
+        //pkt.emit(hdr.ethernet);
+        //pkt.emit(hdr.ipv4);
     }
 }
 
