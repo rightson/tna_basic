@@ -1,15 +1,10 @@
+.PHONY: venv.init build switchd port.up port.show port.clear ptf clean
+
+RUN_DIR=./run
+
 usage:
 	@echo "Targets:"
-	@echo "  build"
-	@echo "  switchd.run"
-	@echo "  port.conf"
-	@echo "  port.show"
-	@echo "  port.watch"
-	@echo "  rule.add"
-	@echo "  test"
-	@echo "  venv.init"
-	@echo "  code.gen"
-	@echo "  m3.ping"
+	@grep -e '^.PHONY' Makefile | sed 's/.PHONY://g'
 
 
 venv.init:
@@ -19,29 +14,24 @@ venv.init:
 		venv/bin/pip install -r py/requirements.txt; \
 	fi
 
-code.gen:
-	venv/bin/python py/p4gen.py p4src/conquest.p4template p4src/conquest.p4
-
 build:
 	rt build tna_basic.p4
 
-switchd.run:
-	rt switchd tna_basic
+switchd:
+	if [ ! -d $(RUN_DIR) ]; then mkdir -p $(RUN_DIR); fi
+	if [ -d $(RUN_DIR) ]; then cd $(RUN_DIR) && rt switchd tna_basic; fi
 
-port.conf:
-	rt bfshell conf/pm.bfsh && sleep 3 && rt bfshell conf/show.bfsh
+port.up:
+	rt bfshell bfshell/port18.bfsh
 
 port.show:
-	rt bfshell conf/show.bfsh
+	rt bfshell bfshell/show.bfsh
 
-port.watch:
-	watch -n 1 "rt bfshell conf/show.bfsh"
+port.clear:
+	rt bfshell bfshell/port18-stats-clr.bfsh
 
-rule.add:
-	rt test conf
+ptf:
+	if [ -d $(RUN_DIR) ]; then cd $(RUN_DIR) && rt test ../ptf; fi
 
-test:
-	rt test test
-
-m3.ping:
-	ssh p4user@192.168.132.83 ping -I eno3 10.0.10.43 -c 5
+clean:
+	rm -f *.swp *.swo *.pyc cscope.* ptf.* tags run/*

@@ -1,0 +1,6 @@
+ucli
+port-add 18/- 10G NONE
+port-enb 18/-
+show
+exit
+exit

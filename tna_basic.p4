@@ -24,7 +24,7 @@ parser IngressParser(
         pkt.extract(hdr.ethernet);
         transition select (hdr.ethernet.ether_type) {
             ETHERTYPE_IPV4: parse_ipv4;
-            default : reject;
+            default : accept;
         }
     }
 
@@ -42,10 +42,6 @@ control IngressPipeline(
         inout ingress_intrinsic_metadata_for_deparser_t intr_dprs_md,
         inout ingress_intrinsic_metadata_for_tm_t intr_tm_md) {
 
-    action ipv4_forward (PortId_t dst_port) {
-        intr_tm_md.ucast_egress_port = dst_port;
-    }
-
     action drop () {
         intr_dprs_md.drop_ctl = 0x1;
     }
@@ -54,13 +50,19 @@ control IngressPipeline(
 
     }
 
+    action ipv4_forward (mac_addr_t dst_addr, PortId_t dst_port) {
+        intr_tm_md.ucast_egress_port = dst_port;
+        hdr.ethernet.src_addr = hdr.ethernet.dst_addr;
+        hdr.ethernet.dst_addr = dst_addr;
+        // hdr.ipv4.ttl = hdr.ipv4.ttl - 1;
+    }
+
     table forward {
         key = {
             hdr.ipv4.dst_addr: exact;
         }
         actions = {
             ipv4_forward;
-            @defaultonly noop;
         }
         default_action = noop;
         size = 1024;
@@ -78,8 +80,8 @@ control IngressDeparser(
         in metadata_t ig_md,
         in ingress_intrinsic_metadata_for_deparser_t ig_dprsr_md) {
     apply {
-        //pkt.emit(hdr.ethernet);
-        //pkt.emit(hdr.ipv4);
+        pkt.emit(hdr.ethernet);
+        pkt.emit(hdr.ipv4);
     }
 }
 
@@ -110,8 +112,8 @@ control EgressDeparser(
         in metadata_t md,
         in egress_intrinsic_metadata_for_deparser_t intr_dprs_md) {
     apply {
-        //pkt.emit(hdr.ethernet);
-        //pkt.emit(hdr.ipv4);
+        pkt.emit(hdr.ethernet);
+        pkt.emit(hdr.ipv4);
     }
 }
 
