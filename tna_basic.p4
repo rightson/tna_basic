@@ -54,7 +54,7 @@ control IngressPipeline(
         intr_tm_md.ucast_egress_port = dst_port;
         hdr.ethernet.src_addr = hdr.ethernet.dst_addr;
         hdr.ethernet.dst_addr = dst_addr;
-        // hdr.ipv4.ttl = hdr.ipv4.ttl - 1;
+        hdr.ipv4.ttl = hdr.ipv4.ttl - 1;
     }
 
     table forward {
@@ -63,6 +63,7 @@ control IngressPipeline(
         }
         actions = {
             ipv4_forward;
+            @defaultonly noop;
         }
         default_action = noop;
         size = 1024;
