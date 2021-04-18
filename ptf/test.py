@@ -10,7 +10,7 @@ logger = logging.getLogger('Test')
 class ruleTest(BfRuntimeTest):
     def setUp(self):
         self.p4_name = "tna_basic"
-        BfRuntimeTest.setUp(self, client_id=0, self.p4_name)
+        BfRuntimeTest.setUp(self, client_id=0, p4_name=self.p4_name)
 
     def tearDown(self):
         BfRuntimeTest.tearDown(self)
