@@ -1,7 +1,0 @@
-ucli
-pm
-port-add 14/0 100G RS
-port-enb 14/0
-show
-exit
-exit

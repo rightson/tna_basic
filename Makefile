@@ -1,5 +1,5 @@
 .PHONY: venv.init build switchd port.up port.show port.clear ptf clean
-export PATH := bin:$(PATH)
+export PATH := $(PWD)/bin:$(PATH)
 
 RUN_DIR = ./run
 P4_NAME = tna_basic
