@@ -1,20 +1,41 @@
-[
-    {
-        "key": {
-            "dst_addr": "10.0.10.33"
+{
+
+    "IngressPipeline.forward": [
+        {
+            "key": {
+                "dst_addr": "10.0.10.33"
+            },
+            "data": {
+                "dst_addr": "08:94:ef:92:e6:76",
+                "dst_port": 12
+            }
         },
-        "data": {
-            "dst_addr": "08:94:ef:92:e6:76",
-            "dst_port": 12
-        }
-    },
-    {
-        "key": {
-            "dst_addr": "10.0.10.43"
+        {
+            "key": {
+                "dst_addr": "10.0.10.43"
+            },
+            "data": {
+                "dst_addr": "08:94:ef:94:24:8a",
+                "dst_port": 14
+            }
         },
-        "data": {
-            "dst_addr": "08:94:ef:94:24:8a",
-            "dst_port": 14
+        {
+            "key": {
+                "dst_addr": "10.0.10.201"
+            },
+            "data": {
+                "dst_addr": "ec:0d:9a:d9:d0:7b",
+                "dst_port": 16
+            }
+        },
+        {
+            "key": {
+                "dst_addr": "10.0.10.202"
+            },
+            "data": {
+                "dst_addr": "ec:0d:9a:d9:cd:2b",
+                "dst_port": 0
+            }
         }
-    }
-]
+    ]
+}

@@ -29,7 +29,7 @@ class ruleTest(BfRuntimeTest):
 
         rules_path = os.path.join(BASE_DIR, 'rules.json')
         rules = json.loads(open(rules_path).read())
-        for rule in rules:
+        for rule in rules['IngressPipeline.forward']:
             key = table.make_key(
                 [
                     gc.KeyTuple('hdr.ipv4.dst_addr',
