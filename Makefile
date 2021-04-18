@@ -1,4 +1,4 @@
-.PHONY: venv.init build switchd port.up port.show port.clear ptf clean
+.PHONY: venv.init build switchd port.up port.show port.clear test clean
 export PATH := $(PWD)/bin:$(PATH)
 
 RUN_DIR = ./run
@@ -33,7 +33,7 @@ port.show:
 port.clear:
 	sde bfshell conf/port-stats-clr.bfsh
 
-ptf:
+test:
 	if [ -d $(RUN_DIR) ]; then cd $(RUN_DIR) && sde test ../ptf; fi
 
 clean:
