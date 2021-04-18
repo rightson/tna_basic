@@ -1,10 +1,13 @@
 import logging
 import time
+import os
+import json
 
 from bfruntime_client_base_tests import BfRuntimeTest
 import bfrt_grpc.client as gc
 
 logger = logging.getLogger('Test')
+BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 
 
 class ruleTest(BfRuntimeTest):
@@ -24,27 +27,8 @@ class ruleTest(BfRuntimeTest):
         table.info.key_field_annotation_add("hdr.ipv4.dst_addr", "ipv4")
         table.info.data_field_annotation_add("dst_addr", "ipv4_forward", "mac")
 
-        rules = [
-            {
-                'key': {
-                    'dst_addr': '10.0.10.33',
-                },
-                'data': {
-                    'dst_addr': '08:94:ef:92:e6:76',
-                    'dst_port': 12,
-                },
-            },
-            {
-                'key': {
-                    'dst_addr': '10.0.10.43',
-                },
-                'data': {
-                    'dst_addr': '08:94:ef:94:24:8a',
-                    'dst_port': 14,
-                },
-            }
-        ]
-
+        print(os.path.join(BASE_DIR, 'rules.json'))
+        rules = json.loads(open(os.path.join(BASE_DIR, 'rules.json')).read())
         for rule in rules:
             key = table.make_key(
                 [
