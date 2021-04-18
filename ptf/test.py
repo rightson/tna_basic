@@ -27,8 +27,8 @@ class ruleTest(BfRuntimeTest):
         table.info.key_field_annotation_add("hdr.ipv4.dst_addr", "ipv4")
         table.info.data_field_annotation_add("dst_addr", "ipv4_forward", "mac")
 
-        print(os.path.join(BASE_DIR, 'rules.json'))
-        rules = json.loads(open(os.path.join(BASE_DIR, 'rules.json')).read())
+        rules_path = os.path.join(BASE_DIR, 'rules.json')
+        rules = json.loads(rules_path).read())
         for rule in rules:
             key = table.make_key(
                 [
