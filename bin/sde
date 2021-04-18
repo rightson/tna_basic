@@ -1,0 +1,64 @@
+#!/bin/bash
+
+P4_BUILD=$SDE/p4_build.sh
+P4_PROGRAM_NAME=`basename $PWD`
+TEST_DIR=$PWD
+COMMAND_FILE=pm.cfg
+
+function build () {
+    if [ ! -f $P4_BUILD ]; then
+        echo "$P4_BUILD not found"
+        exit
+    fi
+    if [ -n "$1" ]; then
+        P4_SOURCE_NAME=$1
+        shift
+    else
+        P4_SOURCE_NAME=${P4_PROGRAM_NAME}.p4
+    fi
+    set -x
+    $P4_BUILD $P4_SOURCE_NAME
+}
+
+function switchd () {
+    if [ -n "$1" ]; then
+        P4_PROGRAM_NAME=$1
+        shift
+    fi
+    set -x
+    $SDE/run_switchd.sh -p $P4_PROGRAM_NAME $*
+}
+
+function bfshell () {
+    if [ -n "$1" ]; then
+        COMMAND_FILE=$1
+        shift
+    fi
+    if [ -f $COMMAND_FILE.bfsh ]; then
+        COMMAND_FILE=$COMMAND_FILE.bfsh
+    fi
+    set -x
+    $SDE/run_bfshell.sh -f $COMMAND_FILE $*
+}
+
+function test () {
+    if [ -n "$1" ]; then
+        TEST_DIR=$1
+        shift
+    fi
+    set -x
+    $SDE/run_p4_tests.sh -p $P4_PROGRAM_NAME -t $TEST_DIR $*
+}
+
+if [ $# -eq 0 ]; then
+    echo "Usage: `basename $0` OPTIONS"
+    echo ""
+    echo "OPTIONS"
+    echo "    build [P4_SOURCE]"
+    echo "    switchd [P4_PROGRAM_NAME]"
+    echo "    bfshell [COMMAND_FILE]"
+    echo "    test [P4_SOURCE]"
+    exit
+fi
+
+$*
