@@ -1,7 +1,9 @@
 .PHONY: venv.init build switchd port.up port.show port.clear ptf clean
 export PATH := bin:$(PATH)
 
-RUN_DIR=./run
+RUN_DIR = ./run
+P4_NAME = tna_basic
+
 
 usage:
 	@echo "Targets:"
@@ -16,23 +18,24 @@ venv.init:
 	fi
 
 build:
-	sde build tna_basic.p4
+	sde build $(P4_NAME).p4
 
 switchd:
 	if [ ! -d $(RUN_DIR) ]; then mkdir -p $(RUN_DIR); fi
-	if [ -d $(RUN_DIR) ]; then cd $(RUN_DIR) && sde switchd tna_basic; fi
+	if [ -d $(RUN_DIR) ]; then cd $(RUN_DIR) && sde switchd $(P4_NAME); fi
 
 port.up:
-	sde bfshell bfshell/port18.bfsh
+	sde bfshell conf/port.bfsh
 
 port.show:
-	sde bfshell bfshell/show.bfsh
+	sde bfshell conf/show.bfsh
 
 port.clear:
-	sde bfshell bfshell/port18-stats-clr.bfsh
+	sde bfshell conf/port-stats-clr.bfsh
 
 ptf:
 	if [ -d $(RUN_DIR) ]; then cd $(RUN_DIR) && sde test ../ptf; fi
 
 clean:
 	rm -f *.swp *.swo *.pyc cscope.* ptf.* tags run/*
+
