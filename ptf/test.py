@@ -8,11 +8,14 @@ import bfrt_grpc.client as gc
 
 logger = logging.getLogger('Test')
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
+RULE_PATH = os.path.join(BASE_DIR, 'rules.json')
 
 
 class ruleTest(BfRuntimeTest):
     def setUp(self):
         self.p4_name = "tna_basic"
+        self.rules = json.loads(open(RULE_PATH).read())
+        self.target = gc.Target(device_id=0, pipe_id=0xffff)
         BfRuntimeTest.setUp(self, client_id=0, p4_name=self.p4_name)
 
     def tearDown(self):
@@ -23,13 +26,23 @@ class ruleTest(BfRuntimeTest):
 
         bfrt_info = self.interface.bfrt_info_get(self.p4_name)
 
-        table = bfrt_info.table_get('IngressPipeline.forward')
+	self.config_forward(bfrt_info)
+
+    def entry_add(self, table, key_list, data_list):
+        try:
+            table.entry_del(self.target, key_list)
+        except:
+            pass
+        print('entry_add:  {key: %s, data: %s}' % (key_list, data_list))
+        table.entry_add(self.target, key_list, data_list)
+
+    def config_forward(self, bfrt_info):
+	table_name = 'IngressPipeline.forward'
+        table = bfrt_info.table_get(table_name)
         table.info.key_field_annotation_add("hdr.ipv4.dst_addr", "ipv4")
         table.info.data_field_annotation_add("dst_addr", "ipv4_forward", "mac")
 
-        rules_path = os.path.join(BASE_DIR, 'rules.json')
-        rules = json.loads(open(rules_path).read())
-        for rule in rules['IngressPipeline.forward']:
+        for rule in self.rules[table_name]:
             key = table.make_key(
                 [
                     gc.KeyTuple('hdr.ipv4.dst_addr',
@@ -43,12 +56,5 @@ class ruleTest(BfRuntimeTest):
                 ],
                 'IngressPipeline.ipv4_forward'
             )
-
-            target = gc.Target(device_id=0, pipe_id=0xffff)
-            try:
-                table.entry_del(target, [key])
-            except:
-                pass
-            print('entry_add:  {key: %s, data: %s}' % (key, data))
-            table.entry_add(target, [key], [data])
+            self.entry_add(table, [key], [data])
 
