@@ -1,4 +1,6 @@
 ucli
+port-stats-clr 14/-
+port-stats-clr 16/-
 port-stats-clr 18/-
 exit
 exit

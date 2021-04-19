@@ -21,7 +21,7 @@
         },
         {
             "key": {
-                "dst_addr": "10.0.10.201"
+                "dst_addr": "10.0.11.1"
             },
             "data": {
                 "dst_addr": "ec:0d:9a:d9:d0:7b",
@@ -30,7 +30,7 @@
         },
         {
             "key": {
-                "dst_addr": "10.0.10.202"
+                "dst_addr": "10.0.11.2"
             },
             "data": {
                 "dst_addr": "ec:0d:9a:d9:cd:2b",
