@@ -11,7 +11,18 @@ BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 RULE_PATH = os.path.join(BASE_DIR, 'rules.json')
 
 
-class ruleTest(BfRuntimeTest):
+class MyBfRuntimeTest(BfRuntimeTest):
+    def entry_add(self, table, key_list, data_list):
+        try:
+            table.entry_del(self.target, key_list)
+	    pass
+        except:
+            pass
+        print('entry_add:  {key: %s, data: %s}' % (key_list, data_list))
+        table.entry_add(self.target, key_list, data_list)
+
+
+class ruleTest(MyBfRuntimeTest):
     def setUp(self):
         self.p4_name = "tna_basic"
         self.rules = json.loads(open(RULE_PATH).read())
@@ -26,18 +37,10 @@ class ruleTest(BfRuntimeTest):
 
         bfrt_info = self.interface.bfrt_info_get(self.p4_name)
 
-	self.config_forward(bfrt_info)
-
-    def entry_add(self, table, key_list, data_list):
-        try:
-            table.entry_del(self.target, key_list)
-        except:
-            pass
-        print('entry_add:  {key: %s, data: %s}' % (key_list, data_list))
-        table.entry_add(self.target, key_list, data_list)
+        self.config_forward(bfrt_info)
 
     def config_forward(self, bfrt_info):
-	table_name = 'IngressPipeline.forward'
+        table_name = 'IngressPipeline.forward'
         table = bfrt_info.table_get(table_name)
         table.info.key_field_annotation_add("hdr.ipv4.dst_addr", "ipv4")
         table.info.data_field_annotation_add("dst_addr", "ipv4_forward", "mac")
@@ -57,4 +60,3 @@ class ruleTest(BfRuntimeTest):
                 'IngressPipeline.ipv4_forward'
             )
             self.entry_add(table, [key], [data])
-

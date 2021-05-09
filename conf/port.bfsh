@@ -1,8 +1,4 @@
 ucli
-port-add 14/- 100G RS
-port-enb 14/-
-port-add 16/- 100G RS
-port-enb 16/-
 port-add 18/- 10G NONE
 port-enb 18/-
 show
