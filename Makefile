@@ -30,6 +30,10 @@ port.up:
 port.show:
 	sde bfshell conf/show.bfsh
 
+port: port.up
+	sleep 5;
+	make port.show
+
 port.clear:
 	sde bfshell conf/port-stats-clr.bfsh
 
