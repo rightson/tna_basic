@@ -15,7 +15,6 @@ class MyBfRuntimeTest(BfRuntimeTest):
     def entry_add(self, table, key_list, data_list):
         try:
             table.entry_del(self.target, key_list)
-	    pass
         except:
             pass
         print('entry_add:  {key: %s, data: %s}' % (key_list, data_list))
@@ -44,7 +43,6 @@ class ruleTest(MyBfRuntimeTest):
         table = bfrt_info.table_get(table_name)
         table.info.key_field_annotation_add("hdr.ipv4.dst_addr", "ipv4")
         table.info.data_field_annotation_add("dst_addr", "ipv4_forward", "mac")
-
         for rule in self.rules[table_name]:
             key = table.make_key(
                 [
