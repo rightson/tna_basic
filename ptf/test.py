@@ -9,12 +9,16 @@ import bfrt_grpc.client as gc
 logger = logging.getLogger('Test')
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 RULE_PATH = os.path.join(BASE_DIR, 'rules.json')
+if not os.path.exists(RULE_PATH):
+    logger.error('Please link one of existing rules*.json as rules.json')
+    sys.exit(-1)
 
 
 class MyBfRuntimeTest(BfRuntimeTest):
     def entry_add(self, table, key_list, data_list):
         try:
-            table.entry_del(self.target, key_list)
+            #table.entry_del(self.target, key_list)
+            print('Remove non-existing entry')
         except:
             pass
         print('entry_add:  {key: %s, data: %s}' % (key_list, data_list))

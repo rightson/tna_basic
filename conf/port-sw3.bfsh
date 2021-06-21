@@ -1,0 +1,8 @@
+ucli
+port-add 11/- 10G NONE
+port-enb 11/-
+port-add 13/0 10G NONE
+port-enb 13/0
+show
+exit
+exit

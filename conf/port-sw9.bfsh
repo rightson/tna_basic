@@ -1,6 +1,8 @@
 ucli
 port-add 18/- 10G NONE
 port-enb 18/-
+port-add 32/0 10G NONE
+port-enb 32/0
 show
 exit
 exit
