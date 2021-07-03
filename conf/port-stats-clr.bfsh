@@ -1,5 +1,1 @@
-ucli
-port-stats-clr 18/-
-port-stats-clr 32/0
-exit
-exit
+port-stats-clr-sw3.bfsh
