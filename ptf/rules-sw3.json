@@ -3,6 +3,24 @@
     "IngressPipeline.forward": [
         {
             "key": {
+                "dst_addr": "1.0.1.33"
+            },
+            "data": {
+                "dst_addr": "00:1b:21:bc:a1:33",
+                "dst_port": 0
+            }
+        },
+        {
+            "key": {
+                "dst_addr": "1.0.1.43"
+            },
+            "data": {
+                "dst_addr": "00:1b:21:bc:a1:43",
+                "dst_port": 1
+            }
+        },
+        {
+            "key": {
                 "dst_addr": "10.0.10.1"
             },
             "data": {

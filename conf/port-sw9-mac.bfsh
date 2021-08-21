@@ -1,9 +1,0 @@
-ucli
-bf_pltfm
-chss_mgmt
-port_mac_get 18 0
-port_mac_get 18 1
-port_mac_get 18 2
-port_mac_get 18 3
-exit
-exit
